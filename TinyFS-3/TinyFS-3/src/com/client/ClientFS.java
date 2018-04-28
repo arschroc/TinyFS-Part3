@@ -59,7 +59,14 @@ public class ClientFS {
 	 * Example usage: DeleteDir("/Shahram/CSCI485/", "Lecture1")
 	 */
 	public FSReturnVals DeleteDir(String src, String dirname) {
-		return null;
+		if(master.hasSubDirs(src, dirname)) {
+			return FSReturnVals.DirNotEmpty;
+		}
+		if (master.deleteDir(src, dirname)) {
+			System.out.println("Successfully deleted directory: " + dirname);
+			return FSReturnVals.Success;
+		}
+		return FSReturnVals.SrcDirNotExistent;
 	}
 
 	/**

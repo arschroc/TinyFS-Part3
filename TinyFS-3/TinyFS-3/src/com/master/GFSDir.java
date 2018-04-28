@@ -46,6 +46,35 @@ public class GFSDir {
 	}
 	
 	/**
+	 * Deletes all sub-directorys within this directory
+	 * @param filePath
+	 * @return
+	 */
+	public boolean deleteSubDir(String filePath) {
+		for (GFSDir sub : subDirs) {
+			if (sub.name.equals(filePath)) {
+				// Recursively call down children
+				deleteSubDirs(sub);
+				// Delete this subDir
+				subDirs.remove(sub);
+				return true;
+			}
+		}
+	
+		return false;
+	}
+	
+	public void deleteSubDirs(GFSDir dir) {
+		for (GFSDir sub : dir.subDirs) {
+			// Recursively call down children
+			deleteSubDirs(sub);
+			// Delete this subDir
+			subDirs.remove(sub);
+		}
+
+	}
+	
+	/**
 	 * Recursively constructs the absolute file path of the directory
 	 * since the relationship between parent and sub-directory is inherently
 	 * recursive

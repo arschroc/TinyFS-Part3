@@ -47,8 +47,12 @@ public class Master {
 	/**
 	 * TODO:
 	 */
-	public void deleteDir() {
-		
+	public boolean deleteDir(String src, String dirname) {
+		return fileSystem.deleteDir(src, dirname);
+	}
+	
+	public boolean hasSubDirs(String src, String dirname) {
+		return fileSystem.hasSubDirs(src, dirname);
 	}
 	
 	/**

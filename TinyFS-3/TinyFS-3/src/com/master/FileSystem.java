@@ -62,9 +62,51 @@ public class FileSystem {
 	 * @param filePath
 	 * @return
 	 */
-	public boolean deleteDir(String filePath) {
-		// TODO: Replace return statement with a method body
+	public boolean deleteDir(String srcDir, String filePath) {
+		GFSDir parentDir = getParent(srcDir);
+		GFSDir toDelete = null;
+		for (int i=0; i<parentDir.getSubDirs().size(); i++) {
+			System.out.println("filepath: "+filePath+ "  subDir: "+ parentDir.getSubDirs().get(i).getName());
+			if (parentDir.getSubDirs().get(i).getName().equals(filePath)) {
+				toDelete = parentDir.getSubDirs().get(i);
+			}
+		}
+		//check if dir DNE
+		if (toDelete == null) {
+			return false;
+		}
+		System.out.println("in delete FS");
+		deleteSubDirs(toDelete);
+		
+		//Check if dir DNE in GFSDir
+		if (!parentDir.deleteSubDir(filePath)) {
+			return false;
+		}
+		
 		return true;
+	}
+	
+	public boolean hasSubDirs(String src, String filePath) {
+		GFSDir parentDir = getParent(src);
+		GFSDir toDelete = null;
+		for (int i=0; i<parentDir.getSubDirs().size(); i++) {
+			System.out.println("filepath: "+filePath+ "  subDir: "+ parentDir.getSubDirs().get(i).getName());
+			if (parentDir.getSubDirs().get(i).getName().equals(filePath)) {
+				toDelete = parentDir.getSubDirs().get(i);
+			}
+		}
+		if (toDelete.getSubDirs().size() > 0 ) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public void deleteSubDirs(GFSDir dir) {
+		for (int i=0; i<dir.getSubDirs().size(); i++) {
+			deleteSubDirs(dir.getSubDirs().get(i));
+		}
+		fileNamespace.remove(dir.getName());
 	}
 	
 	/**
