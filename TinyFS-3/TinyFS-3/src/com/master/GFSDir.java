@@ -24,7 +24,7 @@ public class GFSDir {
 		this.parent = parent;
 		this.files = new ArrayList<>();
 		this.subDirs = new ArrayList<>();
-		this.absPathName = getAbsPath() + name;
+		this.absPathName = getAbsPath();
 	}
 	
 	/**
@@ -32,16 +32,17 @@ public class GFSDir {
 	 * @param filePath
 	 * @return
 	 */
-	public boolean createSubDir(String filePath) {
+	public GFSDir createSubDir(String filePath) {
 		for (GFSDir sub : subDirs) {
 			if (sub.name.equals(filePath)) {
 				// Sub-directory already exists
-				return false;
+				return null;
 			}
 		}
 		// Sub-directory doesn't exist, so create it
-		subDirs.add(new GFSDir(filePath, this));
-		return true;
+		GFSDir newDir = new GFSDir(filePath, this);
+		subDirs.add(newDir);
+		return newDir;
 	}
 	
 	/**
@@ -82,6 +83,14 @@ public class GFSDir {
 	 */
 	public String getAbsPathName() {
 		return absPathName;
+	}
+	
+	/**
+	 * Getter method for name
+	 * @return
+	 */
+	public String getName() {
+		return name;
 	}
 	
 }

@@ -9,7 +9,7 @@ import java.util.Map;
 public class FileSystem {
 
 	private Map<String, GFSDir> fileNamespace;	// File namespace member
-	private GFSDir root;						// The file namespace root
+	private GFSDir root;							// The file namespace root
 	
 	/**
 	 * Parameterized constructor for the file system
@@ -40,7 +40,10 @@ public class FileSystem {
 		GFSDir parentDir = getParent(srcDir);
 		if (parentDir != null) {
 			// Try to add new directory under the parent directory
-			if (parentDir.createSubDir(filePath)) {
+			GFSDir newDir = parentDir.createSubDir(filePath);
+			if (newDir != null) {
+				// Add to namespace map
+				fileNamespace.put(newDir.getName(), newDir);
 				System.out.println("Sucessfully created Directory");
 				return true;
 			} else {
@@ -65,30 +68,33 @@ public class FileSystem {
 	}
 	
 	/**
-	 * 
+	 * Lists the contents of a given directory
 	 * @param srcDir
 	 * @return
 	 */
 	public List<String> listDir(String filePath) {
+		System.out.println("Filepath for list: " + filePath);
 		// Create an ArrayList of directory tree starting at srcDir
 		List<String> items = new ArrayList<>();
 		GFSDir srcDir = getParent(filePath);
 		// Get the sub-directories, recursively get nested dirs/files
-		for (GFSDir sub : srcDir.getSubDirs()) {
-			items.add(sub.getAbsPathName());
-			// Recursively get nested dirs/files
-			items.addAll(listDir(sub.getAbsPathName()));
-		}
-		// Get files within directory
-		for (GFSFile file : srcDir.getFiles()) {
-			// Add file to items to be returned
-			items.add(srcDir.getAbsPathName() + "/" + file.getFilename());
+		if (srcDir != null) {
+			for (GFSDir sub : srcDir.getSubDirs()) {
+				items.add(sub.getAbsPathName());
+				// Recursively get nested dirs/files
+				items.addAll(listDir(sub.getAbsPathName()));
+			}
+			// Get files within directory
+			for (GFSFile file : srcDir.getFiles()) {
+				// Add file to items to be returned
+				items.add(srcDir.getAbsPathName() + "/" + file.getFilename());
+			}
 		}
 		return items;
 	}
 	
 	/**
-	 * 
+	 * Returns the parent directory given a filePath string
 	 * @param srcDir
 	 * @return
 	 */
@@ -112,7 +118,7 @@ public class FileSystem {
 		for (int i = 0; i < toRemove.size(); i++) {
 			parts.remove(toRemove.get(i));
 		}
-		// TODO: Find parent in file namespace
+		// Find parent in file namespace
 		System.out.println("Parent Dir: " + parts.get(parts.size() - 1));
 		return fileNamespace.get(parts.get(parts.size() - 1));
 	}

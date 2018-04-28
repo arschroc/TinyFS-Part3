@@ -1,5 +1,11 @@
 package com.client;
 
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+
+import com.master.Master;
+
 public class ClientFS {
 
 	public enum FSReturnVals {
@@ -17,6 +23,17 @@ public class ClientFS {
 		Success, //Returned when a method succeeds
 		Fail //Returned when a method fails
 	}
+	
+	// Private instance of master for non-networked version
+	private Master master;
+	
+	/**
+	 * Default constructor for ClientFS
+	 */
+	public ClientFS(Master master) {
+		// Add instance of master to ClientFS instance
+		this.master = master;
+	}
 
 	/**
 	 * Creates the specified dirname in the src directory Returns
@@ -27,7 +44,11 @@ public class ClientFS {
 	 * "CSCI485"), CreateDir("/Shahram/CSCI485/", "Lecture1")
 	 */
 	public FSReturnVals CreateDir(String src, String dirname) {
-		return null;
+		if (master.createDir(src, dirname)) {
+			System.out.println("Successfully created directory: " + dirname);
+			return FSReturnVals.Success;
+		}
+		return FSReturnVals.DirExists;
 	}
 
 	/**
@@ -61,7 +82,7 @@ public class ClientFS {
 	 * Example usage: ListDir("/Shahram/CSCI485")
 	 */
 	public String[] ListDir(String tgt) {
-		return null;
+		return master.listDir(tgt);
 	}
 
 	/**

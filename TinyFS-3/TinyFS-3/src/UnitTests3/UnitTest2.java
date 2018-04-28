@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 import com.client.ClientFS;
 import com.client.ClientFS.FSReturnVals;
+import com.master.Master;
 
 /**
  * UnitTest2 for Part 3 of TinyFS
@@ -16,7 +17,8 @@ public class UnitTest2 {
 	static final String TestName = "Unit Test 2: ";
 
 	public static void main(String[] args) {
-		test2(new ClientFS());
+		Master master = new Master();
+		test2(new ClientFS(master));
 	}
 	
 	public static void test2(ClientFS cfs){

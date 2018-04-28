@@ -2,6 +2,7 @@ package UnitTests3;
 
 import com.client.ClientFS;
 import com.client.ClientFS.FSReturnVals;
+import com.master.Master;
 
 /**
  * UnitTest3 for Part 3 of TinyFS
@@ -14,7 +15,8 @@ public class UnitTest3 {
 	static final String TestName = "Unit Test 3: ";
 
 	public static void main(String[] args) {
-		ClientFS cfs = new ClientFS();
+		Master master = new Master();
+		ClientFS cfs = new ClientFS(master);
 		UnitTest2 ut2 = new UnitTest2();
 		ut2.test2(cfs);
 
