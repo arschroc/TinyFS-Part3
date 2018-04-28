@@ -78,7 +78,12 @@ public class ClientFS {
 	 * "/Shahram/CSCI485" to "/Shahram/CSCI550"
 	 */
 	public FSReturnVals RenameDir(String src, String NewName) {
-		return null;
+		if (master.createDir("/", NewName)) {
+			System.out.println("Successfully created directory: " + NewName);
+			return FSReturnVals.Success;
+		} else {
+			return FSReturnVals.DestDirExists;
+		}
 	}
 
 	/**
