@@ -38,23 +38,21 @@ public class FileSystem {
 	public boolean createDir(String srcDir, String filePath) {
 		// Check if parent directory exists
 		GFSDir parentDir = getParent(srcDir);
-		if (parentDir != null) {
-			// Try to add new directory under the parent directory
-			GFSDir newDir = parentDir.createSubDir(filePath);
-			if (newDir != null) {
-				// Add to namespace map
-				fileNamespace.put(newDir.getName(), newDir);
-				System.out.println("Sucessfully created Directory");
-				return true;
-			} else {
-				// Handle directory already exists error
-				System.out.println("Error, directory already exists");
-				return false;
-			}
-		} else {
+		if (parentDir == null) { 
 			System.out.println("Error, parent directory doesn't exist");
 			return false;
 		}
+		// Try to add new directory under the parent directory
+		GFSDir newDir = parentDir.createSubDir(filePath);
+		if (newDir == null) {
+			// Handle directory already exists error
+			System.out.println("Error, directory already exists");
+			return false;
+		}
+		// Add to namespace map
+		fileNamespace.put(newDir.getName(), newDir);
+		System.out.println("Sucessfully created Directory");
+		return true;
 	}
 	
 	/**
@@ -175,18 +173,18 @@ public class FileSystem {
 		// Create an ArrayList of directory tree starting at srcDir
 		List<String> items = new ArrayList<>();
 		GFSDir srcDir = getParent(filePath);
+		// Check if the src directory exists
+		if (srcDir == null) { return items; }
+		// Get files within directory
+		for (GFSFile file : srcDir.getFiles()) {
+			// Add file to items to be returned
+			items.add(srcDir.getAbsPathName() + "/" + file.getFilename());
+		}
 		// Get the sub-directories, recursively get nested dirs/files
-		if (srcDir != null) {
-			for (GFSDir sub : srcDir.getSubDirs()) {
-				items.add(sub.getAbsPathName());
-				// Recursively get nested dirs/files
-				items.addAll(listDir(sub.getAbsPathName()));
-			}
-			// Get files within directory
-			for (GFSFile file : srcDir.getFiles()) {
-				// Add file to items to be returned
-				items.add(srcDir.getAbsPathName() + "/" + file.getFilename());
-			}
+		for (GFSDir sub : srcDir.getSubDirs()) {
+			items.add(sub.getAbsPathName());
+			// Recursively get nested dirs/files
+			items.addAll(listDir(sub.getAbsPathName()));
 		}
 		return items;
 	}
