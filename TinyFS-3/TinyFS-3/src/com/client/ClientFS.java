@@ -105,7 +105,14 @@ public class ClientFS {
 	 * Example usage: Createfile("/Shahram/CSCI485/Lecture1/", "Intro.pptx")
 	 */
 	public FSReturnVals CreateFile(String tgtdir, String filename) {
-		return null;
+		int response = master.createFile(tgtdir, filename);
+		if (response == 0) {
+			return FSReturnVals.Success;
+		} else if (response == -1) {
+			return FSReturnVals.SrcDirNotExistent;
+		} else {
+			return FSReturnVals.FileExists;
+		}
 	}
 
 	/**
@@ -116,7 +123,14 @@ public class ClientFS {
 	 * Example usage: DeleteFile("/Shahram/CSCI485/Lecture1/", "Intro.pptx")
 	 */
 	public FSReturnVals DeleteFile(String tgtdir, String filename) {
-		return null;
+		int response = master.deleteFile(tgtdir, filename);
+		if (response == 0) {
+			return FSReturnVals.Success;
+		} else if (response == -1) {
+			return FSReturnVals.SrcDirNotExistent;
+		} else {
+			return FSReturnVals.FileDoesNotExist;
+		}
 	}
 
 	/**

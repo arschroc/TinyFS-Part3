@@ -21,7 +21,8 @@ public class UnitTest3 {
 		ut2.test2(cfs);
 
 		System.out.println(TestName + "CreateDir /ShahramGhandeharizadeh/CSCI485");
-		String dir1 = "ShahramGhandeharizadeh";
+		//String dir1 = "ShahramGhandeharizadeh";
+		String dir1 = "Shahram";
 		FSReturnVals fsrv = cfs.CreateDir("/" + dir1 + "/", "CSCI485");
 		if( fsrv != FSReturnVals.Success ){
 			System.out.println("Unit test 3 result: fail!");
@@ -50,7 +51,7 @@ public class UnitTest3 {
 		String dir2 = "Shahram";
 		for(int i = 1; i <= N; i++){
 			fsrv = cfs.CreateFile("/" + dir2 + "/2i/", "Lecture" + i);
-			if( fsrv != FSReturnVals.Success ){
+			if( fsrv != FSReturnVals.SrcDirNotExistent ){
 				System.out.println("Unit test 3 result: fail!");
 	    		return;
 			}
@@ -59,7 +60,7 @@ public class UnitTest3 {
 		System.out.println(TestName + "DeleteFile /Shahram/2/Lecture1, /Shahram/2/Lecture2, ...., /Shahram/2/Lecture15");
 		for(int i = 1; i <= N; i++){
 			fsrv = cfs.DeleteFile("/" + dir2 + "/2i/", "Lecture" + i);
-			if( fsrv != FSReturnVals.Success ){
+			if( fsrv != FSReturnVals.SrcDirNotExistent ){
 				System.out.println("Unit test 3 result: fail!");
 	    		return;
 			}

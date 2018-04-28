@@ -107,6 +107,22 @@ public class GFSDir {
 	}
 	
 	/**
+	 * Add method for files within directory
+	 * @return
+	 */
+	public void addFile(GFSFile file) {
+		this.files.add(file);
+	}
+	
+	/**
+	 * Delete method for files within directory
+	 * @return
+	 */
+	public void deleteFile(GFSFile file) {
+		this.files.remove(file);
+	}
+	
+	/**
 	 * Getter method for absPathName
 	 * @return
 	 */

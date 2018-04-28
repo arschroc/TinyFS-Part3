@@ -56,10 +56,10 @@ public class Master {
 	}
 	
 	/**
-	 * TODO:
+	 * -1 = tgtDir DNE, -2 = file Already Exists, 0 = success
 	 */
-	public void createFile() {
-		
+	public int createFile(String tgtdir, String filename) {
+		return fileSystem.createFile(tgtdir, filename);
 	}
 	
 	/**
@@ -70,10 +70,10 @@ public class Master {
 	}
 	
 	/**
-	 * TODO:
+	 * -1 = tgtDir DNE, -2 = file DNE, 0 = success
 	 */
-	public void deleteFile() {
-		
+	public int deleteFile(String tgtdir, String filename) {
+		return fileSystem.deleteFile(tgtdir, filename);
 	}
 	
 	/**

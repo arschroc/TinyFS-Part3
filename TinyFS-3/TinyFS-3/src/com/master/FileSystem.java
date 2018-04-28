@@ -66,7 +66,6 @@ public class FileSystem {
 		GFSDir parentDir = getParent(srcDir);
 		GFSDir toDelete = null;
 		for (int i=0; i<parentDir.getSubDirs().size(); i++) {
-			System.out.println("filepath: "+filePath+ "  subDir: "+ parentDir.getSubDirs().get(i).getName());
 			if (parentDir.getSubDirs().get(i).getName().equals(filePath)) {
 				toDelete = parentDir.getSubDirs().get(i);
 			}
@@ -75,7 +74,6 @@ public class FileSystem {
 		if (toDelete == null) {
 			return false;
 		}
-		System.out.println("in delete FS");
 		deleteSubDirs(toDelete);
 		
 		//Check if dir DNE in GFSDir
@@ -90,7 +88,6 @@ public class FileSystem {
 		GFSDir parentDir = getParent(src);
 		GFSDir toDelete = null;
 		for (int i=0; i<parentDir.getSubDirs().size(); i++) {
-			System.out.println("filepath: "+filePath+ "  subDir: "+ parentDir.getSubDirs().get(i).getName());
 			if (parentDir.getSubDirs().get(i).getName().equals(filePath)) {
 				toDelete = parentDir.getSubDirs().get(i);
 			}
@@ -107,6 +104,65 @@ public class FileSystem {
 			deleteSubDirs(dir.getSubDirs().get(i));
 		}
 		fileNamespace.remove(dir.getName());
+	}
+	
+	/**
+	 * Creates File
+	 * @param srcDir
+	 * @return
+	 */
+	public int createFile(String tgtdir, String filename) {
+		GFSDir targetDir = getParent(tgtdir);
+//		GFSDir targetDir = null;
+//		for (int i=0; i<parentDir.getSubDirs().size(); i++) {
+//			if (parentDir.getSubDirs().get(i).getName().equals(tgtdir)) {
+//				targetDir = parentDir.getSubDirs().get(i);
+//			}
+//		}
+		//tgtdir DNE
+		if (targetDir == null) {
+			return -1; 
+		}
+		
+		GFSFile toAdd = null;
+		for (int i=0; i<targetDir.getFiles().size(); i++) {
+			if (targetDir.getFiles().get(i).getFilename().equals(filename)) {
+				return -2;
+			}
+		}
+		
+		//can add, add now!
+		toAdd = new GFSFile(filename);
+		targetDir.addFile(toAdd);
+		return 0;
+	}
+	
+	/**
+	 * Deletes File
+	 * @param srcDir
+	 * @return
+	 */
+	public int deleteFile(String tgtdir, String filename) {
+		GFSDir targetDir = getParent(tgtdir);
+		//tgtdir DNE
+		if (targetDir == null) {
+			return -1; 
+		}
+		
+		GFSFile toDelete = null;
+		for (int i=0; i<targetDir.getFiles().size(); i++) {
+			if (targetDir.getFiles().get(i).getFilename().equals(filename)) {
+				toDelete = targetDir.getFiles().get(i);
+			}
+		}
+		
+		if (toDelete == null) {
+			return -2;
+		}
+		
+		//can delete, delete now!
+		targetDir.deleteFile(toDelete);
+		return 0;
 	}
 	
 	/**
